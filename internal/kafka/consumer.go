@@ -35,6 +35,8 @@ func NewConsumer(brokerAddr, groupID string) *Consumer {
 // ReadOne blocks until the next message arrives, then returns the decoded event.
 // This is the core loop — call it in a for{} to stream continuously.
 func (c *Consumer) ReadOne(ctx context.Context) (internal.LogEvent, error) {
+	//ctx is just passed as a control signal
+	//ReadMessage() is the one that -> talks to Kafka fetches the message returns it
 	msg, err := c.reader.ReadMessage(ctx)
 	if err != nil {
 		return internal.LogEvent{}, fmt.Errorf("read message: %w", err)

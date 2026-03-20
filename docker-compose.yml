@@ -1,0 +1,17 @@
+# docker-compose.yml
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_NODE_ID: 1  # Unique ID of this broker
+      KAFKA_PROCESS_ROLES: broker,controller  # this kafka node act as both broker and controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 #accept connections from anywhere
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092 #Kafka tells clients to connect to
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER #Use CONTROLLER listener for internal cluster control
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093 #controller quorum (cluster brain)
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true" #Kafka auto-creates topics when producer writes
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
